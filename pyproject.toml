@@ -1,0 +1,39 @@
+[project]
+name = "ViT"
+version = "0.1.0"
+description = "Creation of an ViT Architecture"
+authors = [
+    { name = "Mourad", email = "mouradhsa@hotmail.fr" }
+]
+dependencies = [
+    "pandas>=2.0.3",
+    "numpy>=1.24.4",
+    "torch>=1.0.2",
+    "torchvision>=0.18.0",
+    "tqdm>=4.66.2",
+    "omegaconf>=2.3.0",
+]
+readme = "README.md"
+requires-python = ">= 3.10"
+
+[project.scripts]
+"vit" = "ViT:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "matplotlib>=3.7.5",
+    "black>=24.4.2",
+    "flake8-pyproject>=1.2.3",
+    "ipykernel>=6.29.4",
+]
+
+[tool.flake8]
+config = ".flake8"
+
+[tool.hatch.metadata]
+allow-direct-references = true

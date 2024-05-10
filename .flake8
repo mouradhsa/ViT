@@ -1,0 +1,27 @@
+[flake8]
+# Ignore certain errors or rules
+ignore =
+    "E203",  # Whitespace before ':' (disallowed by black)
+    "E266",  # Too many leading '#' for block comment
+    "W503"   # Line break occurred before a binary operator (disallowed by black)
+    
+# Set maximum line length
+max-line-length = 88
+
+
+# Select which errors and warnings are displayed
+select =
+    B,     # BugBear violations (https://wemake-python-stylegui.de/en/latest/pages/usage/violations/index.html)
+    C,     # Complexity errors
+    E,     # PEP 8 errors
+    F,     # PyFlakes errors
+    W,     # PEP 8 warnings
+    T4     # MyPy type checking errors
+
+# Exclude certain files or directories from linting
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    dist,
+    build
