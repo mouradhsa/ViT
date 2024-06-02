@@ -1,0 +1,25 @@
+ViT:
+  n_patches: 7
+  n_blocks: 2
+  hidden_d: 8
+  n_heads: 2
+  out_d: 10
+  device: cpu
+  dimensions:
+  - 1
+  - 28
+  - 28
+dataset:
+  name: MNIST
+  root: MNIST_Data
+  train: true
+  download: true
+  batch_size: 128
+  shuffle: true
+  transform:
+  - type: ToTensor
+  - type: Normalize
+    mean:
+    - 0.5
+    std:
+    - 0.5

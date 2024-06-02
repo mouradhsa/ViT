@@ -1,0 +1,10 @@
+train:
+  root: datasets
+  download: true
+  shuffle: true
+  batch_size: 128
+test:
+  root: datasets
+  download: true
+  shuffle: true
+  batch_size: 128

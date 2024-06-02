@@ -10,4 +10,10 @@ wheels/
 # venv
 .venv
 # Ignore data
-datasets
+Data
+
+# Ignore Notebook
+Notebook
+
+# Models
+Trained_ViT_models

@@ -1,0 +1,6 @@
+train:
+  root: ./../datasets
+  train: true
+test:
+  root: ./../datasets
+  train: false

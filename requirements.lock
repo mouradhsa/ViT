@@ -9,16 +9,19 @@
 
 -e file:.
 antlr4-python3-runtime==4.9.3
+    # via hydra-core
     # via omegaconf
 colorama==0.4.6
     # via tqdm
-filelock==3.13.4
+filelock==3.14.0
     # via torch
 fsspec==2024.3.1
     # via torch
+hydra-core==1.3.2
+    # via vit
 intel-openmp==2021.4.0
     # via mkl
-jinja2==3.1.3
+jinja2==3.1.4
     # via torch
 markupsafe==2.1.5
     # via jinja2
@@ -26,15 +29,18 @@ mkl==2021.4.0
     # via torch
 mpmath==1.3.0
     # via sympy
-networkx==3.1
+networkx==3.3
     # via torch
-numpy==1.24.4
+numpy==1.26.4
     # via pandas
     # via torchvision
     # via vit
 omegaconf==2.3.0
+    # via hydra-core
     # via vit
-pandas==2.0.3
+packaging==24.0
+    # via hydra-core
+pandas==2.2.2
     # via vit
 pillow==10.3.0
     # via torchvision
@@ -55,7 +61,7 @@ torch==2.3.0
     # via vit
 torchvision==0.18.0
     # via vit
-tqdm==4.66.2
+tqdm==4.66.4
     # via vit
 typing-extensions==4.11.0
     # via torch

@@ -1,0 +1,8 @@
+train:
+  root: datasets
+  train: true
+  download: true
+test:
+  root: ./../datasets
+  train: false
+  download: true

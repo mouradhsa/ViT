@@ -1,0 +1,15 @@
+dataset:
+  name: MNIST
+  root: Data
+  mnist:
+    name: MNIST
+    train: true
+    download: true
+    shuffle: true
+    transform:
+    - type: ToTensor
+    - type: Normalize
+      mean:
+      - 0.5
+      std:
+      - 0.5

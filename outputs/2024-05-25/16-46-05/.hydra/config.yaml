@@ -1,0 +1,19 @@
+train:
+  root: datasets
+  download: true
+  shuffle: true
+  batch_size: 128
+test:
+  root: datasets
+  download: true
+  shuffle: true
+  batch_size: 128
+dataset:
+  name: MNIST
+  root: data
+  train: true
+  download: true
+  batch_size: 128
+  shuffle: true
+  transform:
+  - type: ToTensor
