@@ -1,6 +1,7 @@
 """
-This module defines configuration classes for various aspects of the machine learning pipeline
-using dataclasses. These configurations include model settings, training parameters, dataset
+This module defines configuration classes for various aspects of the
+machine learning pipeline using dataclasses.
+These configurations include model settings, training parameters, dataset
 parameters, and more.
 
 Classes:
@@ -90,26 +91,13 @@ class ViTConfig(ModelConfig):
 
 
 @dataclass
-class DirConfig:
-    """
-    Configuration for directories used in the project.
-
-    Attributes:
-        data_dir (str): The directory where data is stored.
-        model_dir (SaveModelConfig): Configuration for the model saving directory.
-    """
-
-    data_dir: str
-    model_dir: SaveModelConfig
-
-
-@dataclass
 class TrainerConfig:
     """
     Configuration for the training process.
 
     Attributes:
-        device (str): The device to be used for training (e.g., 'cpu' or 'cuda').
+        device (str): The device to be used for training
+        (e.g., 'cpu' or 'cuda').
         LR (float): The learning rate for training.
         N_EPOCHS (int): The number of epochs for training.
         loss_step (int): The step interval for logging loss.
@@ -120,7 +108,6 @@ class TrainerConfig:
     LR: float
     N_EPOCHS: int
     loss_step: int
-    device: int
 
 
 @dataclass
@@ -136,7 +123,7 @@ class TrainConfig:
 
     model: ModelConfig
     trainer: TrainerConfig
-    dir: DirConfig
+    dir: SaveModelConfig
 
 
 @dataclass

@@ -1,10 +1,13 @@
-ViT:
-  n_patches: 7
-  n_blocks: 2
-  hidden_d: 8
-  n_heads: 2 
-  out_d: 10
-  dimensions: [1, 28, 28]
+model:
+  name: ViT
+  ViT:
+    n_patches: 7
+    n_blocks: 2
+    hidden_d: 8
+    n_heads: 2 
+    out_d: 10
+    dimensions: [1, 28, 28]
+    model_path: Trained_ViT_models
 
 dataset:
   name: "MNIST"
@@ -25,9 +28,3 @@ trainer :
   LR: 0.005
   device : cpu
   loss_step: 50
-  batch_size: 128
-
-save_model: 
-  model_name: ViT
-  model_path: Trained_ViT_models
-

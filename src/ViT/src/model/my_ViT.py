@@ -12,7 +12,7 @@ class ViT(nn.Module):
     Vision Transformer (ViT) model.
 
     Args:
-        chw (tuple): Tuple containing number of channels,
+        dimensions (tuple): Tuple containing number of channels,
         height, and width of input images.
         n_patches (int): Number of patches to divide the image into.
         n_blocks (int): Number of transformer blocks.
@@ -21,7 +21,7 @@ class ViT(nn.Module):
         out_d (int): Dimensionality of the output.
 
     Attributes:
-        chw (tuple): Tuple containing number of channels,
+        dimensions (tuple): Tuple containing number of channels,
         height, and width of input images.
         n_patches (int): Number of patches to divide the image into.
         n_blocks (int): Number of transformer blocks.
@@ -37,18 +37,24 @@ class ViT(nn.Module):
         mlp (nn.Sequential): MLP for final classification.
 
     Example:
-        >>> model = ViT(chw=(3, 224, 224), n_patches=16, n_blocks=4,
+        >>> model = ViT(dimensions=(3, 224, 224), n_patches=16, n_blocks=4,
         hidden_d=512, n_heads=8, out_d=10)
     """
 
     def __init__(
-        self, chw, n_patches=7, n_blocks=2, hidden_d=8, n_heads=2, out_d=10
+        self,
+        dimensions,
+        n_patches=7,
+        n_blocks=2,
+        hidden_d=8,
+        n_heads=2,
+        out_d=10,
     ):
         # Super constructor
         super(ViT, self).__init__()
 
         # Attributes
-        self.chw = chw  # ( C , H , W )
+        self.dimensions = dimensions  # ( C , H , W )
         self.n_patches = n_patches
         self.n_blocks = n_blocks
         self.n_heads = n_heads
@@ -56,15 +62,20 @@ class ViT(nn.Module):
 
         # Input and patches sizes
         assert (
-            chw[1] % n_patches == 0
+            dimensions[1] % n_patches == 0
         ), "Input shape not entirely divisible by number of patches"
         assert (
-            chw[2] % n_patches == 0
+            dimensions[2] % n_patches == 0
         ), "Input shape not entirely divisible by number of patches"
-        self.patch_size = (chw[1] / n_patches, chw[2] / n_patches)
+        self.patch_size = (
+            dimensions[1] / n_patches,
+            dimensions[2] / n_patches,
+        )
 
         # 1) Linear mapper
-        self.input_d = int(chw[0] * self.patch_size[0] * self.patch_size[1])
+        self.input_d = int(
+            dimensions[0] * self.patch_size[0] * self.patch_size[1]
+        )
         self.linear_mapper = nn.Linear(self.input_d, self.hidden_d)
 
         # 2) Learnable classification token

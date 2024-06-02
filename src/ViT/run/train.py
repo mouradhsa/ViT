@@ -1,4 +1,11 @@
-# src/ViT/run/train.py
+"""
+Trainer Script
+
+This script trains a model using the provided
+configuration and saves the trained model.
+
+"""
+
 import hydra
 from tqdm import tqdm, trange
 import torch
@@ -10,17 +17,10 @@ from pathlib import Path
 from datetime import datetime
 import numpy as np
 
-
-from ViT.src.model.my_ViT import ViT
-from ViT.run.prepare_data import load_MNIST_data
 from ViT.src.config import (
-    ViTConfig,
     TrainConfig,
     TrainerConfig,
     SaveModelConfig,
-    DatasetConfig,
-    TransformConfig,
-    ModelConfig,
 )
 
 from ViT.src.datamodule.seg import MNISTDataModule
@@ -30,24 +30,22 @@ np.random.seed(0)
 torch.manual_seed(0)
 
 
-def train(train_loader: DataLoader, train: TrainConfig):
-    # Initialize model
-    model = train.model
-    trainer_config = train.trainer
-    save_model_config = train.dir.model_dir
-    # model = ViT(
-    #     vit_config.dimensions,
-    #     n_patches=vit_config.n_patches,
-    #     n_blocks=vit_config.n_blocks,
-    #     hidden_d=vit_config.hidden_d,
-    #     n_heads=vit_config.n_heads,
-    #     out_d=vit_config.out_d,
-    # ).to(trainer_config.device)
+def training(train_loader: DataLoader, train: TrainConfig):
+    """
+    Training Function
 
-    # Initialize optimizer and loss function
+    Args:
+        train_loader (DataLoader): DataLoader for the training dataset.
+        train (TrainConfig): Configuration for training.
+
+    """
+    # Initialize model
+    model = train.model.model_config
+    trainer_config = train.trainer
+    save_model_config = train.dir
+
     optimizer = Adam(model.parameters(), lr=trainer_config.LR)
     criterion = CrossEntropyLoss()
-
     # Training loop
     for epoch in trange(trainer_config.N_EPOCHS, desc="Training"):
         train_loss = 0.0
@@ -113,67 +111,31 @@ def train(train_loader: DataLoader, train: TrainConfig):
 
 @hydra.main(version_base=None, config_path="conf", config_name="train")
 def main(cfg: TrainConfig):
-    print(cfg.ViT)
-    datamodule = MNISTDataModule(cfg)
-    model = ViTModelModule(cfg)
-    print(model.param)
-    # print(model)
-    # train(
-    #     train_loader=datamodule.train_loader,train=
-    # )
-    # # Get the current date
-    # current_date = datetime.now().strftime("%Y-%m-%d %H-%M")
+    """
+    Main Function
 
-    # # Update the model_name with the current date
-    # save_model_config = SaveModelConfig(
-    #     model_name=f"{cfg.save_model.model_name}_{current_date}",
-    #     model_path=cfg.save_model.model_path,
-    # )
+    Args:
+        cfg (TrainConfig): Configuration object containing training parameters.
 
-    # # Extract variables from cfg and map them to data classes
-    # vit_config = ViTConfig(
-    #     dimensions=cfg.ViT.dimensions,
-    #     n_patches=cfg.ViT.n_patches,
-    #     n_blocks=cfg.ViT.n_blocks,
-    #     hidden_d=cfg.ViT.hidden_d,
-    #     n_heads=cfg.ViT.n_heads,
-    #     out_d=cfg.ViT.out_d,
-    # )
+    """
 
-    # trainer_config = TrainerConfig(
-    #     device=cfg.trainer.device,
-    #     LR=cfg.trainer.LR,
-    #     N_EPOCHS=cfg.trainer.N_EPOCHS,
-    #     loss_step=cfg.trainer.loss_step,
-    #     batch_size=cfg.trainer.batch_size,
-    #     loss_step=cfg.trainer.loss_step,
-    # )
+    date_time = datetime.now().strftime("%Y-%m-%d_%H_%M")
 
-    # if cfg.dataset.name == "MNIST":
-    #     dataset_config = DatasetConfig(
-    #         name=cfg.dataset.mnist.name,
-    #         root=cfg.dataset.root,
-    #         train=cfg.dataset.mnist.train,
-    #         download=cfg.dataset.mnist.download,
-    #         batch_size=cfg.dataset.mnist.batch_size,
-    #         shuffle=cfg.dataset.mnist.shuffle,
-    #         transform=TransformConfig(
-    #             type=cfg.dataset.mnist.transform[0].type,
-    #             mean=None,
-    #             std=None,
-    #         ),
-    #     )
-    #     # Load data
-    #     train_loader, test_loader = load_MNIST_data(dataset_config)
+    if cfg.dataset.name == "MNIST":
+        datamodule = MNISTDataModule(cfg.dataset.mnist)
 
-    # # Call the train function with extracted parameters
-    # train(
-    #     train_loader,
-    #     trainer_config.device,
-    #     vit_config,
-    #     trainer_config,
-    #     save_model_config,
-    # )
+    if cfg.model.name == "ViT":
+        modelmodule = ViTModelModule(cfg.model.ViT)
+        save_model_config = SaveModelConfig(
+            model_path=cfg.model.ViT.model_path,
+            model_name=Path(cfg.model.name) / date_time,
+        )
+
+    trainer = TrainerConfig(**cfg.trainer)
+    train = TrainConfig(modelmodule, trainer, save_model_config)
+
+    # Training of the model
+    training(datamodule.train_loader, train)
 
 
 if __name__ == "__main__":
