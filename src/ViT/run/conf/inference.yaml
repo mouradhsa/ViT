@@ -1,7 +1,8 @@
 model:
   name: ViT
   ViT:
-    model_path: Trained_ViT_models/ViT_2024-06-08-15_44
+    models_dir: Trained_ViT_models
+    model_name: ViT_2024-06-08-15_44
     device: cpu
     save: pred
 

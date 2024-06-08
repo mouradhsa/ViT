@@ -12,7 +12,7 @@ This repository contains an implementation of Vision Transformers (ViT) from scr
 - [Prepare Data](#prepare-data)
   - [1. Preprocess Data](#1-preprocess-data)
 - [Train Model](#train-model)
-
+- [Inference Model](#inference-model)
 ## What is Vision Transformers (ViT)?
 
 Vision Transformers (ViT) are a class of neural network architectures introduced in the paper "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale" by Dosovitskiy et al. Unlike convolutional neural networks (CNNs), which rely on convolutions and pooling operations, ViTs employ a transformer architecture, originally designed for natural language processing (NLP), to process image data directly.
@@ -70,3 +70,17 @@ The following commands perform experiments with batch_size of 64, 128, and 256.
 rye run python .\src\ViT\run\train.py --m dataset.mnist.batch_size=64,128,256
 ```
 
+
+## Inference Model
+The following commands are for inferencing the model on mnist using the ViT_2024-06-08-15_44 trained model
+
+```bash
+rye run python .\src\ViT\run\inference.py model.ViT.model_name=ViT_2024-06-08-15_44
+```
+
+You can easily change output result by changing the paramaters since [hydra](https://hydra.cc/docs/intro/) is used.
+The following commands perform the inference and save the results in the prediction folder
+
+```bash
+rye run python .\src\ViT\run\inference.py model.ViT.save=prediction
+```

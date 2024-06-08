@@ -131,7 +131,7 @@ class TrainConfig:
 @dataclass
 class InferenceConfig:
     model_name: str
-    model_path: Path
+    model_dir: Path
     device: str
     save: Path
 

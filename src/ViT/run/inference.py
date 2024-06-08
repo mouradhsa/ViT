@@ -32,7 +32,8 @@ def inference(loader: DataLoader, inf: InferenceConfig):
         None
     """
     # Load the model
-    model = torch.load(inf.model_path)
+    model_path = Path(inf.model_dir) / Path(inf.model_name)
+    model = torch.load(model_path)
     model.to(inf.device)
     model.eval()
 
@@ -91,10 +92,9 @@ def main(cfg: DictConfig):
     if cfg.model.name == "ViT":
         cfg = cfg.model.ViT
 
-        model_name = Path(cfg.model_path).name
         inf = InferenceConfig(
-            model_name=model_name,
-            model_path=cfg.model_path,
+            model_name=cfg.model_name,
+            model_dir=cfg.models_dir,
             device=cfg.device,
             save=cfg.save,
         )
