@@ -3,7 +3,7 @@
 Data
 multirun
 Notebook
-outputs*
+outputs/
 pred
 Trained_ViT_models
 

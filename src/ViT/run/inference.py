@@ -1,3 +1,11 @@
+"""
+Inference Script
+
+This script performs inference using a trained model and saves
+the predictions to a CSV file.
+
+"""
+
 import hydra
 from omegaconf import DictConfig
 import os
@@ -10,13 +18,20 @@ from torch.utils.data import DataLoader
 from ViT.src.config import InferenceConfig
 from ViT.src.datamodule.seg import MNISTDataModule
 
-# def load_model(cfg: InferenceConfig) -> nn.Module:
-#     model = ViT(cfg.model)
-#     model.(torch.load(cfg.model_path))
-#     return model
-
 
 def inference(loader: DataLoader, inf: InferenceConfig):
+    """
+    Perform inference using the provided DataLoader and configuration.
+
+    Args:
+        loader (DataLoader): DataLoader object for inference.
+        inf (InferenceConfig): Configuration object
+        containing inference parameters.
+
+    Returns:
+        None
+    """
+    # Load the model
     model = torch.load(inf.model_path)
     model.to(inf.device)
     model.eval()
@@ -48,18 +63,27 @@ def inference(loader: DataLoader, inf: InferenceConfig):
             "probability": [prob.tolist() for prob in all_probabilities],
         }
     )
+
+    # Save predictions to CSV
     if not os.path.exists(inf.save):
         os.makedirs(inf.save)
 
     dir_save = Path(inf.save) / Path(inf.model_name)
     df.to_csv(str(dir_save) + ".csv", index=False)
 
-    return df
-
 
 @hydra.main(config_path="conf", config_name="inference", version_base="1.2")
 def main(cfg: DictConfig):
+    """
+    Main function for inference.
 
+    Args:
+        cfg (DictConfig): Hydra configuration
+        object containing inference parameters.
+
+    Returns:
+        None
+    """
     if cfg.dataset.name == "MNIST":
         datamodule = MNISTDataModule(cfg.dataset.mnist)
         loader = datamodule.test_loader
@@ -75,8 +99,8 @@ def main(cfg: DictConfig):
             save=cfg.save,
         )
 
-    pred = inference(loader, inf)
-    print(pred)
+    # Perform inference
+    inference(loader, inf)
 
 
 if __name__ == "__main__":

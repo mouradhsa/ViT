@@ -11,6 +11,7 @@ Classes:
     ModelConfig: General configuration for a machine learning model.
     TrainerConfig: Configuration for the training process.
     TrainConfig: Configuration for the overall training setup.
+    InferenceConfig: Configuration for the overall inference setup.
     TransformConfig: Configuration for data transformation.
     DatasetConfig: Configuration for the dataset.
 """
