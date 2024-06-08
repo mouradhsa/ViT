@@ -17,6 +17,7 @@ Classes:
 
 from dataclasses import dataclass
 from typing import Optional, Any, List
+from pathlib import Path
 
 
 @dataclass
@@ -124,6 +125,14 @@ class TrainConfig:
     model: ModelConfig
     trainer: TrainerConfig
     dir: SaveModelConfig
+
+
+@dataclass
+class InferenceConfig:
+    model_name: str
+    model_path: Path
+    device: str
+    save: Path
 
 
 @dataclass

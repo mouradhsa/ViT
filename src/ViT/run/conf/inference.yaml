@@ -1,0 +1,22 @@
+model:
+  name: ViT
+  ViT:
+    model_path: Trained_ViT_models/ViT_2024-06-08-15_44
+    device: cpu
+    save: pred
+
+dataset:
+  name: "MNIST"
+  mnist:
+    root: "Data"
+    train: False
+    download: true
+    batch_size: 128
+    shuffle: true
+    transform:
+      - type: "ToTensor"
+      - type: "Normalize"
+        mean: [0.5]
+        std: [0.5]
+
+

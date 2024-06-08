@@ -75,29 +75,29 @@ def training(train_loader: DataLoader, train: TrainConfig):
             loss: {train_loss:.2f}\n"
         )
 
-    # Test loop
-    with torch.no_grad():
-        correct, total = 0, 0
-        test_loss = 0.0
-        for batch in tqdm(trainer_config.device, desc="Testing"):
-            x, y = batch
-            x, y = x.to(trainer_config.device), y.to(trainer_config.device)
-            y_hat = model(x)
-            loss = criterion(y_hat, y)
-            test_loss += loss.detach().cpu().item() / len(
-                trainer_config.device
-            )
+    # # Test loop
+    # with torch.no_grad():
+    #     correct, total = 0, 0
+    #     test_loss = 0.0
+    #     for batch in tqdm(trainer_config.device, desc="Testing"):
+    #         x, y = batch
+    #         x, y = x.to(trainer_config.device), y.to(trainer_config.device)
+    #         y_hat = model(x)
+    #         loss = criterion(y_hat, y)
+    #         test_loss += loss.detach().cpu().item() / len(
+    #             trainer_config.device
+    #         )
 
-            correct += (
-                torch.sum(torch.argmax(y_hat, dim=1) == y)
-                .detach()
-                .cpu()
-                .item()
-            )
-            total += len(x)
+    #         correct += (
+    #             torch.sum(torch.argmax(y_hat, dim=1) == y)
+    #             .detach()
+    #             .cpu()
+    #             .item()
+    #         )
+    #         total += len(x)
 
-        print(f"Test loss: {test_loss:.2f}")
-        print(f"Test accuracy: {correct / total * 100:.2f}%")
+    #     print(f"Test loss: {test_loss:.2f}")
+    #     print(f"Test accuracy: {correct / total * 100:.2f}%")
 
     # Save the models
     if not os.path.exists(save_model_config.model_path):
@@ -119,8 +119,7 @@ def main(cfg: TrainConfig):
 
     """
 
-    date_time = datetime.now().strftime("%Y-%m-%d_%H_%M")
-
+    date_time = datetime.now().strftime("%Y-%m-%d-%H_%M")
     if cfg.dataset.name == "MNIST":
         datamodule = MNISTDataModule(cfg.dataset.mnist)
 
@@ -128,7 +127,7 @@ def main(cfg: TrainConfig):
         modelmodule = ViTModelModule(cfg.model.ViT)
         save_model_config = SaveModelConfig(
             model_path=cfg.model.ViT.model_path,
-            model_name=Path(cfg.model.name) / date_time,
+            model_name=Path(cfg.model.name + "_" + date_time),
         )
 
     trainer = TrainerConfig(**cfg.trainer)

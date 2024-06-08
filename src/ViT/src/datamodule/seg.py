@@ -12,6 +12,13 @@ from ViT.src.config import TrainConfig, MNISTDataConfig
 from ViT.run.utils import get_transforms
 
 
+# Define the custom dataset class
+class MNISTWithoutLabels(MNIST):
+    def __getitem__(self, index):
+        img, _ = super().__getitem__(index)  # Discard the label
+        return img
+
+
 class MNISTDataModule(MNISTDataConfig):
     """
     MNISTDataModule class creates data loaders for the MNIST dataset.
@@ -76,11 +83,12 @@ class MNISTDataModule(MNISTDataConfig):
 
         Creates and returns a DataLoader object for the testing dataset.
 
+
         Returns:
             DataLoader: DataLoader object for the testing dataset.
         """
         if self._test_loader is None:
-            test_dataset = MNIST(
+            test_dataset = MNISTWithoutLabels(
                 root=self.root,
                 train=False,
                 download=self.download,
